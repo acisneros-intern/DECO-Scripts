@@ -93,30 +93,39 @@ def process(name,target_size):
     
     #plt.show()
     
-pth = '/Users/cisnerosa/Desktop/classification/Track/'
-count = 0
-FAILURES = 0
-failed_files = []
-start = time.time()
-for (dname,dnames,fnames) in os.walk(pth):
-    total = len(fnames)
-    for fname in fnames:
-        count += 1
-        if fname [-4:] != '.png':
-            continue
-        sys.stdout.write("\r{}/{}({}%)".format(str(count).zfill(3),total,str(int(float(count)/float(total)*100)).zfill(3)))
+
+def main():
+    pth = '/Users/cisnerosa/Desktop/classification/Track/'
+    count = 0
+    FAILURES = 0
+    failed_files = []
+    start = time.time()
+    
+    for (dname,dnames,fnames) in os.walk(pth):
+        total = len(fnames)
+        for fname in fnames:
+            count += 1
+            if fname [-4:] != '.png':
+                continue
+            sys.stdout.write("\r{}/{}({}%)".format(str(count).zfill(3),total,str(int(float(count)/float(total)*100)).zfill(3)))
+            sys.stdout.flush()
+            try:
+                process(pth+fname,(32,32))
+            except:
+                failed_files.append(fname)
+                FAILURES += 1
+        success = float(total - FAILURES)
+        elapsed = time.time() - start
+        minutes, seconds = (int(math.floor(elapsed/60)),int("{0:.2f}".format(elapsed % 60)))
+        log((minutes,seconds))
+        print "\n {} minutes {} seconds\n".format(minutes,seconds)
+        print "{} completed. {} guaranteed failures. Maximum {}% success rate.".format(total,FAILURES,int(success/total*100))
+      #  for f in failed_files:
+           # os.system('open {}'.format(pth+f))
+        sys.stdout.write("\r")
         sys.stdout.flush()
-        try:
-            process(pth+fname,(32,32))
-        except:
-            failed_files.append(fname)
-            FAILURES += 1
-    success = float(total - FAILURES)
-    elapsed = time.time() - start
-    print "\n {} minutes {} seconds\n".format(int(math.floor(elapsed/60)),"{0:.2f}".format(elapsed % 60))
-    print "{} completed. {} guaranteed failures. Maximum {}% success rate.".format(total,FAILURES,int(success/total*100))
-    for f in failed_files:
-        os.system('open {}'.format(pth+f))
+for i in range(20):
+    main()
 
         
         

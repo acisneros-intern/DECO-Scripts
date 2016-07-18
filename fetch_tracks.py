@@ -39,10 +39,11 @@ def fetch_from_out(path):
     make_folder('files')
     for link in ls:
         dat = requests.get(ls[link],stream=True)
-        print ls[link]
         if dat.status_code == 200:
-            os.system("touch {}/{}".format(FOLDER,link))
-            with open('{}/{}'.format(FOLDER,link),'w') as image_file:
+            name = '-'.join(ls[link].split("/")[-2:])
+            print name
+            os.system("touch {}/{}".format(FOLDER,name))
+            with open('{}/{}'.format(FOLDER,name),'w') as image_file:
                 for chunk in dat:
                     image_file.write(chunk)
         else:

@@ -14,17 +14,18 @@ Increase or decrease the radius of the selection circle with the up and down arr
 
 class GUI(Tk):
     """An aid for visual classification of events"""
-    width  = 820
+    width  = 900
     height = 600
     
     cursor_radius = 35 #this has to be odd, don't ask me why, I'm ashamed. I'll fix it later.
     mouse_position = (0,0)
-    magnification = 3
+    magnification = 2
     
     current_image = None
     current_index = -1
     image_list = []
     source = ""
+    
     def __init__(self):
         Tk.__init__(self)
         global SOURCE
@@ -63,7 +64,7 @@ class GUI(Tk):
         self.mainloop()
     def create_interface(self):
         #create an outline around where the image will be, image_proportions is the amount of our window that the image will take up
-        image_proportions = (0.7,0.875)
+        image_proportions = (0.6,0.875)
         #create a border around image
         border = 10
         
@@ -150,25 +151,20 @@ class GUI(Tk):
         self.progress_display.config(text="<{}> of <{}>".format(self.current_index+1,len(self.image_list)))
         
         self.display_image(self.current_image)
+    def log(self,*args):
+        for arg in args:
+            with open('classified_signals.txt','a') as f:
+                f.write(arg)
     def categorize(self,kind):        
         if kind == "Skip":
             self.cycle_images()
             return
-        #check if a folder exists to put the categorized image into, otherwise make one
-        destination = '{}/{}/{}'.format(os.getcwd(),kind,self.current_image.split("/")[-1])
-        if not os.path.exists('/'.join(destination.split("/")[:-1])):
-            try:
-                os.system('mkdir {}'.format('/'.join(destination.split("/")[:-1])))
-            except OSError:
-                pass
-        #move image into folder named 'kind'
-        os.system('mv {} {}'.format(self.current_image,destination))
-        #show new image
+
+        #log image
+        self.log(str({kind:self.current_image.split("/")[-1]})+"\n")
+        #remove image
+        os.system("rm -f {}".format(self.current_image))
         self.cycle_images()
-        
-    
-        
-        
         
     def set_source(self,name):
         #ensure the folder is padded with forward slashes and set it as the image source
