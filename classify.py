@@ -161,7 +161,7 @@ class GUI(Tk):
             return
 
         #log image
-        self.log(str({kind:self.current_image.split("/")[-1]})+"\n")
+        self.log(str({self.current_image.split("/")[-1]:kind})+"\n")
         #remove image
         os.system("rm -f {}".format(self.current_image))
         self.cycle_images()
