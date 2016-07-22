@@ -161,9 +161,9 @@ class GUI(Tk):
             return
 
         #log image
-        self.log(str({self.current_image.split("/")[-1]:kind})+"\n")
+        self.log(str({kind:self.current_image.split("/")[-1]})+"\n")
         #remove image
-        os.system("rm -f {}".format(self.current_image))
+        os.system("rm {}".format(self.current_image.replace(" ","\ ")))
         self.cycle_images()
         
     def set_source(self,name):
