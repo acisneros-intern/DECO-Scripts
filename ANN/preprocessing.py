@@ -10,6 +10,9 @@ import sys
 import time
 
 def distance(*args):
+    """
+    Cumulative distance between values in a list
+    """
     total = 0
     for (index,num) in enumerate(args[1:]):
         total += abs(args[index]-num)
@@ -51,6 +54,9 @@ def to_array(image,size):
     avg /= float(size[0] * size[1])
     return result,avg
 def log(info):
+    """
+    write 'info' to 'log.txt'
+    """
     with open('log.txt','a') as f:
         f.write('\n{}'.format(info))
         
@@ -102,6 +108,7 @@ def process(name,target_size):
     im = im.convert('L')
     
     im.save('{}/{}'.format(DESTINATION,name.split("/")[-1]))
+
 
 DESTINATION = '/users/cisnerosa/desktop/track_sample/'
 SOURCE = '/Users/cisnerosa/Desktop/tracks/'

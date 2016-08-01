@@ -45,10 +45,15 @@ def classify(data,network_file='network_training_progress.xml'):
     Here, 0.99 indicates it believes with 99% certainty that the image is a track, 
     and 0.01% certainty that it is not a track.
     
+    !!!IMPORTANT!!!
+    THE PROGRAM EXPECTS FILES OUTPUT FROM PREPROCESSING.PY,
+    AND PREPREOCESSING.PY EXPECTS FILES THAT HAVE BEEN
+    OUTPUT BY PLOTBLOBS.PY
+    !!!IMPORTANT!!!
+    
     """
     net = NetworkReader.readFrom(network_file)
     return net.activate(data)
-    
-    
+
 im = loadImage('/Users/cisnerosa/Documents/WIPAC/Scripts/ANN/training_data/signal_sample/2013.02.21-101776098_medium.png')
 print classify(im)
