@@ -22,12 +22,11 @@ def polygon_area(x,y):
     for i in range(j+1):
         area += (x[j] + x[i]) * (y[j] - y[i])
         j = i
-    
     return abs(area/2.0)
 def pairwise(iterable):
     a = iter(iterable)
     return izip(a, a)
-gdef crop(fname):
+def crop(fname):
     # takes a filename 'image' and crops it by 100,100,100,175. Returns this as a PhotoImage for use with tk canvas .
 
     image = Image.open(fname)
@@ -100,7 +99,7 @@ def process(name,target_size):
     
     im = im.crop((smallest[0],smallest[1],largest[0],largest[1]))
     im.thumbnail(target_size)
-    im = im.convert('LA')
+    im = im.convert('L')
     
     im.save('{}/{}'.format(DESTINATION,name.split("/")[-1]))
 
@@ -146,11 +145,4 @@ def main():
         plt.xlabel('samples')
         plt.show()
 if __name__ == '__main__':
-    main()
-
-        
-        
-        
-        
-        
-                
+    main()            
